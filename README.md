@@ -1,1 +1,1064 @@
-# X-Vorlex
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>X-Vorlex • Session Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 30%, #0f0b1f, #05020c);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Poppins', sans-serif;
+      min-height: 100vh;
+      color: #f0eef7;
+      padding-bottom: 90px;
+      transition: background 0.2s;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #1e1735; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #ff4d8c; border-radius: 10px; }
+
+    .app-container {
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 20px 18px 100px;
+    }
+
+    .glass {
+      background: rgba(18, 12, 38, 0.55);
+      backdrop-filter: blur(14px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 100, 150, 0.25);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header-premium {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+    .menu-icon, .icon-btn {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1.5rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+      border: 1px solid rgba(255, 175, 200, 0.3);
+      transition: 0.2s;
+    }
+    .logo-badge {
+      background: linear-gradient(135deg, #ff3b7a, #ff88b0);
+      padding: 8px 26px;
+      border-radius: 60px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 15px #ff2a6d50;
+    }
+    .header-actions { display: flex; gap: 12px; }
+
+    .video-banner {
+      position: relative;
+      height: 220px;
+      border-radius: 1.8rem;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: #00000055;
+      cursor: pointer;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    }
+    .video-banner video, .video-banner img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sound-tag {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(10px);
+      padding: 5px 14px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      z-index: 3;
+      font-weight: bold;
+      pointer-events: none;
+    }
+
+    .profile-card {
+      background: rgba(255, 55, 105, 0.28);
+      backdrop-filter: blur(20px);
+      border-radius: 1.8rem;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 300px;
+      margin-top: -100px;
+      margin-left: 12px;
+      border: 1px solid rgba(255,255,210,0.5);
+      z-index: 10;
+      position: relative;
+      margin-bottom: 18px;
+    }
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid #ffb7c5;
+      object-fit: cover;
+      background: #2a1f3a;
+    }
+    .vip-title { font-weight: 800; font-size: 1rem; display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+    .vip-stamp { background: #ffcd7e; color: #2c0c1a; padding: 4px 12px; border-radius: 40px; font-size: 0.65rem; font-weight: 800; }
+
+    .btn-primary {
+      background: linear-gradient(95deg, #ff2a6d, #ff6595);
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: bold;
+      color: white;
+      font-size: 1rem;
+      margin: 12px 0 18px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(255, 42, 109, 0.4);
+      transition: 0.1s;
+    }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .input-group {
+      background: rgba(25, 18, 48, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 12px 20px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ff5a9233;
+    }
+    .input-group input {
+      background: transparent;
+      border: none;
+      flex: 1;
+      color: white;
+      outline: none;
+      font-size: 0.9rem;
+    }
+
+    .section-caption {
+      color: #ff98b9;
+      font-weight: bold;
+      margin: 16px 0 12px;
+      display: flex;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+    .bug-options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .bug-pill {
+      background: rgba(40, 30, 68, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 10px 18px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: 0.1s;
+    }
+    .bug-pill.active {
+      background: #ff2a6d;
+      box-shadow: 0 0 12px #ff2a6d;
+      border-color: white;
+    }
+
+    .private-zone {
+      background: rgba(15, 10, 32, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 1.8rem;
+      padding: 18px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 80, 120, 0.3);
+    }
+    .flex-add {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .flex-add input {
+      flex: 1;
+      background: #0f0a22;
+      border: 1px solid #ff5288;
+      border-radius: 60px;
+      padding: 12px 18px;
+      color: white;
+      outline: none;
+    }
+    .flex-add button {
+      background: #ff2a6d;
+      border: none;
+      width: 52px;
+      border-radius: 60px;
+      font-size: 1.6rem;
+      color: white;
+      cursor: pointer;
+    }
+    .chip-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chip {
+      background: #ff2a6d55;
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .info-double {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 20px 0 20px;
+    }
+    .info-card {
+      background: rgba(25, 18, 50, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 16px 14px;
+      border: 1px solid rgba(255, 180, 200, 0.3);
+      transition: 0.2s;
+    }
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: #ffbbd4;
+      border-left: 3px solid #ff5a92;
+      padding-left: 10px;
+    }
+    .weather-temp {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 8px 0 4px;
+    }
+    .weather-detail {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      display: flex;
+      justify-content: space-between;
+    }
+    .prayer-mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .prayer-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      background: rgba(0,0,0,0.3);
+      padding: 6px 12px;
+      border-radius: 50px;
+    }
+    .next-prayer-badge {
+      background: #ff2a6d33;
+      border-radius: 40px;
+      padding: 6px 10px;
+      font-size: 0.7rem;
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .shalat-full {
+      background: rgba(20, 14, 48, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 1.5rem;
+      padding: 14px;
+      margin-top: 8px;
+      border: 1px solid rgba(255,200,210,0.2);
+    }
+    .prayer-full-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .prayer-full-item {
+      background: rgba(0,0,0,0.4);
+      border-radius: 1rem;
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 0.7rem;
+    }
+    .prayer-full-item span:first-child { font-weight: bold; display: block; }
+
+    .global-sender {
+      background: rgba(255, 42, 109, 0.2);
+      text-align: center;
+      padding: 12px;
+      border-radius: 60px;
+      margin: 18px 0 20px;
+      cursor: pointer;
+      border: 1px solid #ff7caa;
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 580px;
+      background: rgba(10, 6, 22, 0.92);
+      backdrop-filter: blur(24px);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 12px 22px;
+      border-radius: 32px 32px 0 0;
+      border-top: 1px solid #ff528870;
+      z-index: 40;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #a09bb5;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .nav-item.active { color: #ff6a9e; text-shadow: 0 0 4px #ff4880; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+      backdrop-filter: blur(18px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background: #1e163be6;
+      width: 92%;
+      max-width: 500px;
+      max-height: 85vh;
+      border-radius: 2rem;
+      padding: 1.2rem;
+      overflow-y: auto;
+      border: 1px solid #ff7caa;
+    }
+    .surah-item {
+      background: rgba(255,70,120,0.2);
+      margin: 8px 0;
+      padding: 10px 16px;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+    .arabic-text {
+      font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', 'Times New Roman', serif;
+      font-size: 1.45rem;
+      line-height: 1.55;
+      direction: rtl;
+      text-align: right;
+      color: #ffe3b3;
+      margin-bottom: 8px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      word-wrap: break-word;
+    }
+    .translation-text {
+      font-size: 0.85rem;
+      color: #cfc9f0;
+      border-left: 2px solid #ff6a9e;
+      padding-left: 12px;
+      margin-top: 6px;
+    }
+    .ayat-card {
+      background: rgba(10, 6, 26, 0.65);
+      border-radius: 1.3rem;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      border-right: 3px solid #ff88b0;
+    }
+    .ayat-number {
+      display: inline-block;
+      background: #ff2a6d;
+      border-radius: 40px;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    button { font-family: inherit; }
+    select { background: #1a1035; color: white; border: 1px solid #ff6a9e; border-radius: 40px; padding: 8px 12px; outline: none; font-size: 0.75rem; }
+
+    /* ---------- LOGIN MODAL WITH BANNER & LOADING ---------- */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 1, 12, 0.96);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0.5s;
+      visibility: visible;
+      opacity: 1;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .login-overlay.hidden {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .login-card {
+      background: rgba(20, 14, 45, 0.7);
+      backdrop-filter: blur(16px);
+      border-radius: 2.5rem;
+      padding: 1.5rem 1.8rem 2rem;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid rgba(255, 80, 140, 0.7);
+      box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 0 1px rgba(255, 90, 150, 0.2);
+      text-align: center;
+      animation: floatGlow 0.6s ease-out;
+    }
+    @keyframes floatGlow {
+      0% { opacity: 0; transform: scale(0.94) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .login-banner {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      margin-bottom: 16px;
+      border: 2px solid #ff77a9;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+      background: #120b24;
+    }
+    .login-icon {
+      font-size: 3rem;
+      background: linear-gradient(135deg, #ff3b7a, #ffb347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 5px;
+    }
+    .login-card h2 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, #ff99c2, #ff518b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .login-sub {
+      color: #bfb5e6;
+      font-size: 0.75rem;
+      margin-bottom: 22px;
+      border-bottom: 1px dashed #ff739e;
+      display: inline-block;
+      padding-bottom: 4px;
+    }
+    .login-field {
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 60px;
+      padding: 12px 18px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(255, 100, 150, 0.5);
+      transition: 0.2s;
+    }
+    .login-field i {
+      color: #ff6a9e;
+      width: 24px;
+      font-size: 1.1rem;
+    }
+    .login-field input {
+      background: transparent;
+      border: none;
+      flex: 1;
+      color: white;
+      outline: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .login-field input::placeholder {
+      color: #9a86b3;
+      font-weight: 400;
+    }
+    .login-btn {
+      background: linear-gradient(95deg, #ff2a6d, #ff6595);
+      width: 100%;
+      border: none;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: bold;
+      font-size: 1rem;
+      color: white;
+      margin-top: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 5px 15px #ff2a6d55;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .login-btn:active { transform: scale(0.97); }
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .login-note {
+      font-size: 0.65rem;
+      margin-top: 18px;
+      color: #aa92c7;
+    }
+    .toast-login {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1130dd;
+      backdrop-filter: blur(12px);
+      padding: 10px 24px;
+      border-radius: 60px;
+      color: #ffdbb5;
+      font-weight: bold;
+      font-size: 0.8rem;
+      z-index: 1100;
+      border-left: 4px solid #ff2a6d;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    .spinner-small {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .logout-icon {
+      color: #ff7faa;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- LOGIN OVERLAY (WAJIB LOGIN ULANG SETIAP SESI) -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-card">
+    <img class="login-banner" src='https://media1.giphy.com/media/v1.Y2lkPTZjMDliOTUybGw2N3B0bTY1dzBscXlxb3NpMzF5aHV6OHU0eTI4cDN5OG1oMHhlaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XFnZJkgxvxvnG/giphy.gif'0" alt="login banner" onerror="this.src='https://placehold.co/600x200/ff2a6d/white?text=X-VORLEX+BANNER'">
+    <div class="login-icon"><i class="fas fa-skull"></i><i class="fas fa-bolt" style="margin-left: 5px;"></i></div>
+    <h2>X-VORLEX</h2>
+    <div class="login-sub">⚡ REQUIRES LOGIN ⚡</div>
+    <div class="login-field">
+      <i class="fas fa-user-astronaut"></i>
+      <input type="text" id="loginUsername" placeholder="Username" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <i class="fas fa-key"></i>
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="off">
+    </div>
+    <button class="login-btn" id="doLoginBtn"><i class="fas fa-fingerprint"></i>  UNLOCK ACCESS</button>
+    <div class="login-note">✨ * credential bebas (min 3 karakter) ✨<br>🔁 Setiap sesi harus login ulang</div>
+  </div>
+</div>
+<div id="loginToast" class="toast-login">✨ Selamat datang, Vorlex Master ✨</div>
+
+<div class="app-container" id="mainApp" style="opacity:0; transition: opacity 0.6s ease;">
+  <div class="header-premium">
+    <div class="menu-icon" id="themeTogglerBtn"><i class="fas fa-palette"></i></div>
+    <div class="logo-badge">⚡ X-Vorlex ⚡</div>
+    <div class="header-actions">
+      <div class="icon-btn" id="logoutBtn"><i class="fas fa-sign-out-alt logout-icon"></i></div>
+      <div class="icon-btn"><i class="fas fa-bolt"></i></div>
+    </div>
+  </div>
+
+  <div class="video-banner" id="videoZone">
+    <img id="bannerPreview" src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=600" alt="preview">
+    <video id="bgVideo" loop playsinline style="display:none;"></video>
+    <div class="sound-tag"><i class="fas fa-volume-up"></i> Suara Aktif</div>
+  </div>
+  <input type="file" id="videoUploader" accept="video/*" hidden>
+
+  <div class="profile-card">
+    <img class="avatar" src="https://media4.giphy.com/media/v1.Y2lkPTZjMDliOTUycDE0dHBoZjkyMjRhYng2dzJqMm1iYWtrYWNjb2dmeTBmNmgzNzE2NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0Exm2Wa4TermgtJC/giphy.gif" alt="encat" onerror="this.src='https://placehold.co/200/ff2a6d/white?text=ENCAT'">
+    <div>
+      <div class="vip-title">ENCAT <span class="vip-stamp">✦ VIP GOLD ✦</span></div>
+      <div style="font-size:0.7rem">⏳ Unlimited • Legendary</div>
+    </div>
+  </div>
+
+  <button class="btn-primary" id="executeGroupBtn"><i class="fab fa-whatsapp"></i>  ⚡ GROUP EXECUTION ⚡</button>
+  <div class="input-group">
+    <i class="fas fa-bullseye" style="color:#ff77a9"></i>
+    <input type="text" id="targetNumber" placeholder="+62xxxxxxxxxx / target sasaran">
+  </div>
+
+  <div class="section-caption"><i class="fas fa-bug"></i> ZERO BUG ENGINE</div>
+  <div class="bug-options" id="bugContainer">
+    <div class="bug-pill active" data-bug="DELAY INVIS">🚫 DELAY INVIS</div>
+    <div class="bug-pill" data-bug="CRASH IOS">🍎 CRASH iOS</div>
+    <div class="bug-pill" data-bug="CRASH ANDRO">🤖 CRASH ANDRO</div>
+    <div class="bug-pill" data-bug="BLANK CLICK">👻 BLANK CLICK</div>
+  </div>
+
+  <div class="private-zone">
+    <div><i class="fab fa-whatsapp"></i>  PRIVATE SENDER</div>
+    <div class="flex-add">
+      <input type="tel" id="waPrivateInput" placeholder="628123456789">
+      <button id="addPrivateBtn">+</button>
+    </div>
+    <div id="privateChips" class="chip-wrapper"></div>
+    <div id="infoEmpty" style="font-size:0.7rem; opacity:0.6;"></div>
+  </div>
+
+  <div class="global-sender" id="globalSenderBtn">
+    🌐  OPEN GLOBAL SENDER  🌐
+  </div>
+
+  <div class="info-double">
+    <div class="info-card" id="weatherCard">
+      <div class="card-title"><i class="fas fa-cloud-sun"></i> Cuaca Sekarang</div>
+      <div id="weatherContent">
+        <div class="weather-temp">--°C</div>
+        <div class="weather-detail"><span><i class="fas fa-wind"></i> Angin: --</span><span><i class="fas fa-tint"></i> --</span></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="card-title"><i class="fas fa-mosque"></i> Jadwal Shalat</div>
+      <select id="cityShalat" style="width:100%; margin-bottom: 12px; font-size:0.7rem;">
+        <option value="Jakarta">Jakarta</option><option value="Bandung">Bandung</option><option value="Surabaya">Surabaya</option>
+        <option value="Medan">Medan</option><option value="Makassar">Makassar</option><option value="Yogyakarta">Yogyakarta</option>
+      </select>
+      <div id="prayerMiniList" class="prayer-mini-list"></div>
+      <div id="nextPrayerMini" class="next-prayer-badge"></div>
+    </div>
+  </div>
+
+  <div class="shalat-full">
+    <div style="font-size:0.8rem; font-weight:bold;"><i class="fas fa-clock"></i> Waktu Shalat Lengkap</div>
+    <div id="fullShalatGrid" class="prayer-full-grid"></div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" data-nav="home"><i class="fas fa-home"></i><span>Home</span></div>
+  <div class="nav-item active" data-nav="wa"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></div>
+  <div class="nav-item" data-nav="quran"><i class="fas fa-quran"></i><span>Al-Qur'an</span></div>
+  <div class="nav-item" data-nav="shalat"><i class="fas fa-mosque"></i><span>Shalat</span></div>
+  <div class="nav-item" data-nav="info"><i class="fas fa-chart-line"></i><span>Info</span></div>
+</div>
+
+<div id="quranModal" class="modal">
+  <div class="modal-content">
+    <div style="display:flex; justify-content:space-between; margin-bottom:14px;">
+      <h3><i class="fas fa-book-open"></i> Al-Qur'an Digital | Arab + Terjemah</h3>
+      <button id="closeModalBtn" style="background:none; border:none; font-size:28px; color:#ffb7c5; cursor:pointer;">&times;</button>
+    </div>
+    <div id="quranDynamicArea">Memuat daftar surah...</div>
+  </div>
+</div>
+
+<script>
+  // ---------- LOGIN SYSTEM (TANPA AUTO-SAVE, HARUS LOGIN ULANG TIAP SESI) ----------
+  const loginOverlay = document.getElementById('loginOverlay');
+  const loginBtn = document.getElementById('doLoginBtn');
+  const usernameInput = document.getElementById('loginUsername');
+  const passwordInput = document.getElementById('loginPassword');
+  const mainAppDiv = document.getElementById('mainApp');
+  const toastMsg = document.getElementById('loginToast');
+  const logoutIcon = document.getElementById('logoutBtn');
+
+  let isLoggedIn = false;  // state session
+
+  function showLoginToast(text, isError = false) {
+    toastMsg.style.opacity = '1';
+    toastMsg.innerHTML = isError ? `⚠️ ${text} ⚠️` : `✨ ${text} ✨`;
+    setTimeout(() => {
+      toastMsg.style.opacity = '0';
+    }, 2200);
+  }
+
+  function setLoadingState(isLoading) {
+    if (isLoading) {
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<span class="spinner-small"></span>   AUTHENTICATING...';
+    } else {
+      loginBtn.disabled = false;
+      loginBtn.innerHTML = '<i class="fas fa-fingerprint"></i>  UNLOCK ACCESS';
+    }
+  }
+
+  // Fungsi login (tidak menyimpan ke localStorage, hanya session memory)
+  function performLogin() {
+    if (isLoggedIn) return; // sudah login
+    const user = usernameInput.value.trim();
+    const pass = passwordInput.value.trim();
+    if(user.length >= 3 && pass.length >= 3) {
+      setLoadingState(true);
+      // simulasi proses login
+      setTimeout(() => {
+        isLoggedIn = true;
+        loginOverlay.classList.add('hidden');
+        mainAppDiv.style.opacity = '1';
+        showLoginToast(`Selamat datang, ${user} — akses penuh`, false);
+        setLoadingState(false);
+        // kosongkan input biar fresh saat logout nanti
+        usernameInput.value = '';
+        passwordInput.value = '';
+      }, 1000);
+    } else {
+      showLoginToast('Username & Password minimal 3 karakter', true);
+      const card = document.querySelector('.login-card');
+      if(card) {
+        card.style.transform = 'translateX(4px)';
+        setTimeout(() => { if(card) card.style.transform = ''; }, 100);
+      }
+    }
+  }
+
+  // Fungsi logout: reset session, tampilkan modal login, sembunyikan konten
+  function performLogout() {
+    if (!isLoggedIn) return;
+    isLoggedIn = false;
+    // reset beberapa state jika perlu (private senders dll tidak perlu direset biar fresh tapi optional)
+    // Tampilkan kembali overlay login
+    loginOverlay.classList.remove('hidden');
+    mainAppDiv.style.opacity = '0';
+    showLoginToast('Anda telah logout, silakan login kembali', false);
+    // reset input login
+    usernameInput.value = '';
+    passwordInput.value = '';
+    // nonaktifkan loading jika ada
+    setLoadingState(false);
+  }
+
+  loginBtn.addEventListener('click', performLogin);
+  const loginInputs = [usernameInput, passwordInput];
+  loginInputs.forEach(inp => {
+    inp.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter') performLogin();
+    });
+  });
+
+  logoutIcon.addEventListener('click', () => {
+    if (isLoggedIn) {
+      performLogout();
+    } else {
+      showLoginToast('Anda belum login', true);
+    }
+  });
+
+  // Pastikan saat load halaman: tidak ada status tersimpan, selalu minta login
+  // Hapus semua kemungkinan localStorage
+  localStorage.removeItem('xvorlex_auth'); // bersihkan
+  isLoggedIn = false;
+  loginOverlay.classList.remove('hidden');
+  mainAppDiv.style.opacity = '0';
+
+  // ========== SEMUA FUNGSIONALITAS ASLI ==========
+  let selectedBug = "DELAY INVIS";
+  let privateSenders = [];
+  let currentCity = "Jakarta";
+
+  const cityCoords = {
+    Jakarta: { lat: -6.2088, lon: 106.8456 }, Bandung: { lat: -6.9175, lon: 107.6191 },
+    Surabaya: { lat: -7.2575, lon: 112.7521 }, Medan: { lat: 3.5952, lon: 98.6722 },
+    Makassar: { lat: -5.1477, lon: 119.4327 }, Yogyakarta: { lat: -7.7956, lon: 110.3694 }
+  };
+
+  // VIDEO
+  const videoZone = document.getElementById('videoZone');
+  const videoInput = document.getElementById('videoUploader');
+  const bannerImg = document.getElementById('bannerPreview');
+  const bgVideo = document.getElementById('bgVideo');
+  videoZone.addEventListener('click', () => videoInput.click());
+  videoInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(file && file.type.startsWith('video/')) {
+      const url = URL.createObjectURL(file);
+      bgVideo.src = url;
+      bgVideo.style.display = 'block';
+      bannerImg.style.display = 'none';
+      bgVideo.muted = false;
+      bgVideo.play().catch(console.warn);
+      bgVideo.loop = true;
+    } else if(file) alert("Upload video (MP4/MOV)");
+  });
+
+  // BUG SELECTOR
+  const bugPills = document.querySelectorAll('.bug-pill');
+  bugPills.forEach(p => {
+    p.addEventListener('click', () => {
+      bugPills.forEach(b => b.classList.remove('active'));
+      p.classList.add('active');
+      selectedBug = p.getAttribute('data-bug');
+    });
+  });
+
+  // PRIVATE SENDER
+  const waPrivateInput = document.getElementById('waPrivateInput');
+  const addPrivateBtn = document.getElementById('addPrivateBtn');
+  const privateChipsDiv = document.getElementById('privateChips');
+  const infoEmptySpan = document.getElementById('infoEmpty');
+  function validateWA(num) { return /^(\+62|62)[0-9]{8,13}$/.test(num.trim()); }
+  function renderPrivateChips() {
+    privateChipsDiv.innerHTML = '';
+    if(privateSenders.length === 0) { infoEmptySpan.innerHTML = '➕ Tambah nomor private sender'; return; }
+    infoEmptySpan.innerHTML = '';
+    privateSenders.forEach((num, idx) => {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.innerHTML = `<i class="fab fa-whatsapp"></i> ${num} <i class="fas fa-times-circle"></i>`;
+      chip.addEventListener('click', () => { if(confirm(`Hapus ${num}?`)){ privateSenders.splice(idx,1); renderPrivateChips(); } });
+      privateChipsDiv.appendChild(chip);
+    });
+  }
+  addPrivateBtn.addEventListener('click', () => {
+    let val = waPrivateInput.value.trim();
+    if(!val) return alert("Masukkan nomor WA");
+    if(!validateWA(val)) return alert("Format salah: 628123456789");
+    if(privateSenders.includes(val)) return alert("Sudah ada");
+    privateSenders.push(val);
+    waPrivateInput.value = '';
+    renderPrivateChips();
+  });
+  renderPrivateChips();
+
+  document.getElementById('executeGroupBtn').addEventListener('click', () => {
+    let target = document.getElementById('targetNumber').value || "Tanpa target";
+    alert(`🔥 EXECUTION 🔥\nTarget: ${target}\nBug: ${selectedBug}\nPrivate sender: ${privateSenders.length} nomor\nGlobal sender: SIAP`);
+  });
+  document.getElementById('globalSenderBtn').addEventListener('click', () => alert("🌐 GLOBAL SENDER AKTIF • Pesan massal tersedia 🌐"));
+
+  // WEATHER
+  async function fetchWeather(city) {
+    const coords = cityCoords[city];
+    if(!coords) return;
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current_weather=true&timezone=auto`;
+      const resp = await fetch(url);
+      const data = await resp.json();
+      if(data.current_weather) {
+        const temp = data.current_weather.temperature;
+        const wind = data.current_weather.windspeed;
+        const weatherCode = data.current_weather.weathercode;
+        let kondisi = "🌤️ Cerah";
+        if(weatherCode >= 51 && weatherCode <= 65) kondisi = "🌧️ Hujan";
+        else if(weatherCode >= 71 && weatherCode <= 77) kondisi = "❄️ Salju";
+        else if(weatherCode >= 80) kondisi = "⛈️ Hujan Lebat";
+        document.getElementById('weatherContent').innerHTML = `
+          <div class="weather-temp">${temp}°C</div>
+          <div class="weather-detail"><span><i class="fas fa-wind"></i> ${wind} km/h</span><span>${kondisi}</span></div>
+        `;
+      } else throw new Error();
+    } catch(e) {
+      document.getElementById('weatherContent').innerHTML = `<div class="weather-temp">--°C</div><div class="weather-detail">Gagal memuat cuaca</div>`;
+    }
+  }
+
+  // SHALAT
+  async function fetchShalat(city) {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const res = await fetch(`https://api.aladhan.com/v1/timingsByCity/${today}?city=${city}&country=Indonesia&method=20`);
+      const json = await res.json();
+      if(json.code === 200) {
+        const t = json.data.timings;
+        const nameMap = { Fajr:'Subuh', Dhuhr:'Dzuhur', Asr:'Ashar', Maghrib:'Maghrib', Isha:'Isya' };
+        const order = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+        let miniHtml = '';
+        order.forEach(p => { miniHtml += `<div class="prayer-row"><span>${nameMap[p]}</span><span>${t[p]}</span></div>`; });
+        document.getElementById('prayerMiniList').innerHTML = miniHtml;
+        let fullHtml = '';
+        order.forEach(p => { fullHtml += `<div class="prayer-full-item"><span>${nameMap[p]}</span><span>${t[p]}</span></div>`; });
+        document.getElementById('fullShalatGrid').innerHTML = fullHtml;
+        const now = new Date();
+        let nextPrayerName = null, nextTime = null;
+        for(let p of order) {
+          let [hour, minute] = t[p].split(':').map(Number);
+          let prayerTime = new Date(); prayerTime.setHours(hour, minute, 0);
+          if(prayerTime > now) {
+            if(!nextTime || prayerTime < nextTime) { nextTime = prayerTime; nextPrayerName = nameMap[p]; }
+          }
+        }
+        if(nextPrayerName && nextTime) {
+          document.getElementById('nextPrayerMini').innerHTML = `<i class="fas fa-bell"></i> Berikutnya: ${nextPrayerName} ${nextTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+        } else { document.getElementById('nextPrayerMini').innerHTML = `<i class="fas fa-moon"></i> Subuh (besok)`; }
+      } else throw new Error();
+    } catch(e) { document.getElementById('prayerMiniList').innerHTML = '<div class="prayer-row">Gagal memuat jadwal</div>'; }
+  }
+  const citySelect = document.getElementById('cityShalat');
+  citySelect.addEventListener('change', (e) => { currentCity = e.target.value; fetchShalat(currentCity); fetchWeather(currentCity); });
+  fetchWeather('Jakarta');
+  fetchShalat('Jakarta');
+
+  // ========== AL-QUR'AN ==========
+  const quranModalDiv = document.getElementById('quranModal');
+  const quranArea = document.getElementById('quranDynamicArea');
+  let surahListGlobal = [];
+
+  async function loadSurahList() {
+    try {
+      const res = await fetch('https://api.alquran.cloud/v1/surah');
+      const data = await res.json();
+      if(data.code === 200) {
+        surahListGlobal = data.data;
+        renderSurahMenu();
+      } else throw new Error();
+    } catch(e) {
+      quranArea.innerHTML = '<div>Gagal memuat Al-Qur\'an, cek koneksi</div>';
+    }
+  }
+
+  function renderSurahMenu() {
+    let html = `<div style="max-height:60vh; overflow-y:auto;">`;
+    surahListGlobal.forEach(surah => {
+      html += `<div class="surah-item" data-surah-id="${surah.number}" data-surah-name="${surah.name}" data-english="${surah.englishName}">${surah.number}. ${surah.name} (${surah.englishName}) — ${surah.numberOfAyahs} ayat</div>`;
+    });
+    html += `</div>`;
+    quranArea.innerHTML = html;
+    document.querySelectorAll('[data-surah-id]').forEach(el => {
+      el.addEventListener('click', async () => {
+        const surahId = el.getAttribute('data-surah-id');
+        const surahName = el.getAttribute('data-surah-name');
+        await showSurahAyatWithArabic(surahId, surahName);
+      });
+    });
+  }
+
+  async function showSurahAyatWithArabic(surahId, surahName) {
+    quranArea.innerHTML = `<div style="text-align:center"><i class="fas fa-spinner fa-pulse"></i> Memuat ${surahName} (Arab + Terjemah)...</div>`;
+    try {
+      const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahId}/editions/ar.alafasy,id.indonesian`);
+      const data = await res.json();
+      if(data.code === 200 && data.data.length >= 2) {
+        const arabicEdition = data.data[0];
+        const translationEdition = data.data[1];
+        const arabicAyahs = arabicEdition.ayahs;
+        const translationAyahs = translationEdition.ayahs;
+        let html = `<div><button id="backToSurah" style="background:#ff4880; border:none; padding:8px 20px; border-radius:40px; margin-bottom:16px; cursor:pointer;">← Kembali ke Daftar Surah</button></div>`;
+        html += `<h3 style="text-align:center; margin: 10px 0;">📖 ${surahName} <span style="font-size:0.9rem;">(${arabicEdition.name})</span></h3>`;
+        html += `<div style="max-height:60vh; overflow-y:auto; padding-right:5px;">`;
+        for(let i = 0; i < arabicAyahs.length; i++) {
+          const arabText = arabicAyahs[i].text;
+          const translationText = translationAyahs[i]?.text || "(Terjemahan tidak tersedia)";
+          const ayahNum = arabicAyahs[i].numberInSurah;
+          html += `<div class="ayat-card"><div class="ayat-number">Ayat ${ayahNum}</div><div class="arabic-text">${arabText}</div><div class="translation-text"><i class="fas fa-language"></i> ${translationText}</div></div>`;
+        }
+        html += `</div>`;
+        quranArea.innerHTML = html;
+        const backBtn = document.getElementById('backToSurah');
+        if(backBtn) backBtn.addEventListener('click', () => renderSurahMenu());
+      } else throw new Error();
+    } catch(e) {
+      quranArea.innerHTML = `<div>Gagal memuat ayat lengkap.</div><button id="backErr" style="margin-top:10px; background:#ff4880; border:none; padding:6px 20px; border-radius:40px;">Kembali</button>`;
+      const backErr = document.getElementById('backErr');
+      if(backErr) backErr.addEventListener('click', () => renderSurahMenu());
+    }
+  }
+
+  function openQuranModal() {
+    if(surahListGlobal.length === 0) loadSurahList();
+    else renderSurahMenu();
+    quranModalDiv.classList.add('active');
+  }
+  document.getElementById('closeModalBtn').addEventListener('click', () => quranModalDiv.classList.remove('active'));
+  quranModalDiv.addEventListener('click', (e) => { if(e.target === quranModalDiv) quranModalDiv.classList.remove('active'); });
+
+  // NAVIGATION
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(nav => {
+    nav.addEventListener('click', () => {
+      const navName = nav.getAttribute('data-nav');
+      navItems.forEach(n => n.classList.remove('active'));
+      nav.classList.add('active');
+      if(navName === 'quran') openQuranModal();
+      else if(navName === 'shalat') document.querySelector('.shalat-full').scrollIntoView({ behavior: 'smooth' });
+      else if(navName === 'info') alert("⚡ X-FLOID PRO EDITION ⚡\n✅ Shalat real-time & next prayer\n✅ Cuaca terkini\n✅ Al-Qur'an lengkap + TERJEMAH & ARAB\n✅ Video banner & private sender\n✅ Bug engine terbaru\n© ENCAT — Ultimate Edition\n🔁 Session login (harus login ulang setiap kali buka halaman)");
+      else if(navName === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+      else if(navName === 'wa') document.getElementById('executeGroupBtn').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // THEME TOGGLER
+  const themeBtn = document.getElementById('themeTogglerBtn');
+  const themes = [
+    'radial-gradient(circle at 20% 30%, #0f0b1f, #05020c)',
+    'radial-gradient(circle at 80% 10%, #1a102f, #03000c)',
+    'linear-gradient(145deg, #1a1030, #0b0620)'
+  ];
+  let themeIdx = 0;
+  themeBtn.addEventListener('click', () => {
+    themeIdx = (themeIdx + 1) % themes.length;
+    document.body.style.background = themes[themeIdx];
+  });
+
+  loadSurahList();
+</script>
+</body>
+</html>
