@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>TEGAR OFFICIAL · PREMIUM HUB</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0d19;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f1f5f9;
+      transition: background 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      scroll-behavior: smooth;
+    }
+
+    body.bg-dark { background: #0b0d19; }
+    body.bg-blue { background: linear-gradient(145deg, #021a3b 0%, #02122b 100%); }
+    body.bg-purple { background: linear-gradient(135deg, #1e0b2f 0%, #10061c 100%); }
+    body.bg-green { background: linear-gradient(145deg, #0a2f1c 0%, #041a0e 100%); }
+    body.bg-red { background: linear-gradient(135deg, #2f1111 0%, #1c0808 100%); }
+    body.bg-amber { background: linear-gradient(145deg, #2f1e0a 0%, #1c1205 100%); }
+    body.bg-pink { background: linear-gradient(145deg, #2a0f2a 0%, #1a081a 100%); }
+
+    .app-wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+      position: relative;
+    }
+
+    .profile-section {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .avatar-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .avatar-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0af;
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5), 0 0 0 4px rgba(0,170,255,0.2);
+      transition: transform 0.3s;
+    }
+    .avatar-img:hover { transform: scale(1.02);}
+    .verified-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 5px;
+      background: #0af;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      border: 2px solid #0b0d19;
+      box-shadow: 0 0 6px #0af;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0,170,255,0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(0,170,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,170,255,0); }
+    }
+    .camera-overlay {
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0af;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: bold;
+      color: #000;
+      white-space: nowrap;
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+    }
+    .avatar-container:hover .camera-overlay { opacity: 0.9; }
+    .display-name {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(120deg, #fff, #7bc9ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-top: 18px;
+      letter-spacing: -0.5px;
+    }
+    .user-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 170, 255, 0.12);
+      padding: 8px 24px;
+      border-radius: 60px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+    }
+    .storage-badge {
+      font-size: 10px;
+      background: rgba(0,170,255,0.2);
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-top: 8px;
+    }
+    .video-hero {
+      margin: 25px 0 20px;
+      border-radius: 36px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 25px 35px -12px black;
+      border: 1px solid rgba(0,170,255,0.5);
+    }
+    .video-hero:hover { transform: translateY(-3px); }
+    .video-hero video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #000;
+    }
+    .video-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, #000000dd, transparent);
+      padding: 18px 12px 12px;
+      font-weight: 700;
+      font-size: 15px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    .upload-hint {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: #0af;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #000;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    .payment-btn {
+      width: 100%;
+      margin: 12px 0;
+      padding: 16px;
+      border: none;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      transition: all 0.25s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .payment-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: 0.5s;
+    }
+    .payment-btn:hover::before { left: 100%; }
+    .btn-dana {
+      background: linear-gradient(95deg, #0066ff, #00a6ff);
+      box-shadow: 0 10px 20px -8px #0066ff80;
+      color: white;
+    }
+    .btn-seabank {
+      background: #0e1a2b;
+      border: 1.5px solid #2f80ed;
+      color: #4dabff;
+    }
+    .btn-seabank i { color: #4dabff; }
+    .payment-btn:active { transform: scale(0.97); }
+    .social-grid {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      background: rgba(10, 20, 35, 0.5);
+      backdrop-filter: blur(8px);
+      border-radius: 80px;
+      padding: 14px 25px;
+      margin: 25px 0 20px;
+    }
+    .social-circle {
+      width: 58px;
+      height: 58px;
+      background: rgba(0, 170, 255, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid rgba(0,170,255,0.3);
+      color: #cce6ff;
+    }
+    .social-circle:hover { background: #0af; transform: translateY(-6px) rotate(5deg); color: #000; }
+    .feature-menu {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0 18px;
+      flex-wrap: wrap;
+    }
+    .feature-item {
+      flex: 1;
+      min-width: 85px;
+      background: rgba(25, 35, 55, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 36px;
+      padding: 14px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid rgba(0,170,255,0.2);
+    }
+    .feature-item i { font-size: 32px; display: block; margin-bottom: 10px; color: #0af; }
+    .feature-item span { font-weight: 700; font-size: 12px; }
+    .feature-item:hover { background: rgba(0,170,255,0.2); transform: translateY(-3px); }
+    .feature-item:active { background: #0af; transform: scale(0.96); }
+    .feature-item:active i, .feature-item:active span { color: #000; }
+    .color-palette-premium {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 12px 0 8px;
+      padding: 15px 12px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 80px;
+      flex-wrap: wrap;
+    }
+    .theme-ball {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      transition: 0.2s;
+      box-shadow: 0 2px 12px black;
+    }
+    .theme-ball:hover { transform: scale(1.15); border-color: #0af; }
+    .footer-custom {
+      text-align: center;
+      font-size: 12px;
+      color: #a0a9c0;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,170,255,0.2);
+    }
+    .footer-custom span { color: #0af; font-weight: bold; }
+    .modal-master {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(16px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-inner {
+      background: rgba(12, 18, 32, 0.97);
+      width: 92%;
+      max-width: 420px;
+      max-height: 85vh;
+      border-radius: 48px;
+      padding: 24px 18px 28px;
+      text-align: center;
+      border: 1px solid #0af;
+      animation: floatModal 0.3s ease;
+      overflow-y: auto;
+    }
+    @keyframes floatModal {
+      from { opacity: 0; transform: scale(0.92) translateY(20px);}
+      to { opacity: 1; transform: scale(1) translateY(0);}
+    }
+    .close-modal-x {
+      background: #0af;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+      color: #000;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+    .close-modal-x:hover { transform: scale(1.02); background: #fff; color: #0af; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 15px 0;
+      max-height: 55vh;
+      overflow-y: auto;
+      padding: 6px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 2px solid rgba(0,170,255,0.4);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .gallery-grid img:hover { transform: scale(1.03); border-color: #0af; }
+    .upload-btn-bulk {
+      background: linear-gradient(95deg, #0af, #0088cc);
+      border: none;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: bold;
+      color: #000;
+      margin: 12px 0 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+    .upload-btn-bulk:hover { transform: scale(1.02); filter: brightness(1.05); }
+    .delete-gallery-btn {
+      background: rgba(255, 50, 50, 0.8);
+      border: none;
+      padding: 10px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: white;
+      transition: 0.2s;
+    }
+    .delete-gallery-btn:hover { background: red; transform: scale(1.02); }
+    .toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0af;
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: bold;
+      z-index: 3000;
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+      box-shadow: 0 5px 20px rgba(0,170,255,0.4);
+    }
+    hr { border-color: #1e3a5f; margin: 14px 0; }
+    
+    /* MUSIC PLAYER PREMIUM */
+    .music-player {
+      background: rgba(0,0,0,0.6);
+      border-radius: 60px;
+      padding: 10px 16px;
+      margin: 15px 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,170,255,0.5);
+    }
+    .music-btn {
+      background: #0af;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #000;
+      font-size: 20px;
+      transition: 0.2s;
+      box-shadow: 0 2px 12px rgba(0,170,255,0.5);
+    }
+    .music-btn:hover { transform: scale(1.08); background: #fff; color: #0af; }
+    .music-text {
+      font-size: 13px;
+      flex: 1;
+      text-align: center;
+      color: #e0f0ff;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .music-menu-btn {
+      background: rgba(0,170,255,0.25);
+      border: 1px solid rgba(0,170,255,0.5);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #0af;
+      font-size: 18px;
+      transition: 0.2s;
+    }
+    .music-menu-btn:hover { background: #0af; color: #000; transform: scale(1.05); }
+    
+    .music-list {
+      margin-top: 16px;
+      max-height: 350px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+    .music-item {
+      background: rgba(0,170,255,0.1);
+      border-radius: 50px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid rgba(0,170,255,0.3);
+    }
+    .music-item:hover { background: rgba(0,170,255,0.35); transform: scale(0.98); }
+    .music-item.active-song { background: #0af; color: #000; border-color: white; }
+    .music-item.active-song .song-title { color: #000; }
+    .music-item .song-icon { font-size: 26px; width: 45px; text-align: center; }
+    .music-item .song-info { flex: 1; text-align: left; }
+    .music-item .song-title { font-weight: 800; font-size: 16px; color: #fff; }
+    .music-item .song-artist { font-size: 12px; opacity: 0.8; }
+    .visitor-count {
+      font-size: 11px;
+      background: rgba(0,170,255,0.2);
+      padding: 4px 12px;
+      border-radius: 40px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body id="appBody" class="bg-dark">
+  <div class="app-wrapper">
+    <div class="profile-section" data-aos="fade-down">
+      <div class="avatar-container" id="avatarContainer">
+        <img class="avatar-img" id="profileImg" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGp3aTZxY3ZhaDN2ZHR1M3Z3bmR3Z2tvdXRza2VrMWsxYjZubWlhMyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7abB06u9bNzA8LC8/giphy.gif" alt="TEGAR OFFICIAL">
+        <div class="verified-badge"><i class="fa-solid fa-check"></i></div>
+        <div class="camera-overlay"><i class="fa-regular fa-camera"></i> Ganti Foto</div>
+      </div>
+      <input type="file" id="profilePhotoInput" accept="image/*" hidden>
+      <div class="display-name">TEGAR OFFICIAL</div>
+      <div class="user-handle"><i class="fa-brands fa-telegram"></i> @TEGAROFFICIAL</div>
+      <div class="storage-badge"><i class="fa-regular fa-floppy-disk"></i> AKU SELALU BERSAMA KAMU </div>
+    </div>
+
+    <div class="video-hero" id="videoCardTrigger">
+      <video id="heroVideoPlayer" autoplay muted loop playsinline poster="https://via.placeholder.com/400x225?text=TEGAR+OFFICIAL">
+        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+      </video>
+      <div class="video-caption"><i class="fa-regular fa-heart"></i> AKU SELALU MENUNGGU KAMU • TEGAR OFFICIAL <i class="fa-regular fa-heart"></i></div>
+      <div class="upload-hint"><i class="fa-regular fa-pen-to-square"></i> Tap ganti video</div>
+      <input type="file" id="customVideoUpload" accept="video/*" hidden>
+    </div>
+
+    <!-- MUSIC PLAYER + MENU LAGU -->
+    <div class="music-player">
+      <button class="music-btn" id="playMusicBtn"><i class="fa-solid fa-play"></i></button>
+      <span class="music-text" id="nowPlayingText">🎵 Pilih lagu dari menu 🎵</span>
+      <button class="music-menu-btn" id="openMusicMenuBtn"><i class="fa-solid fa-list-ul"></i></button>
+    </div>
+
+    <button class="payment-btn btn-dana" id="danaPaymentBtn"><i class="fa-solid fa-wallet"></i> DANA PAYMENT</button>
+    <button class="payment-btn btn-seabank" id="seabankPaymentBtn"><i class="fa-solid fa-building-columns"></i> SEABANK PAYMENT</button>
+
+    <div class="social-grid">
+      <div class="social-circle" id="sosmedWhatsapp"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="social-circle" id="sosmedTelegram"><i class="fa-brands fa-telegram"></i></div>
+      <div class="social-circle" id="sosmedTiktok"><i class="fa-brands fa-tiktok"></i></div>
+      <div class="social-circle" id="sosmedIg"><i class="fa-brands fa-instagram"></i></div>
+      <div class="social-circle" id="sosmedYt"><i class="fa-brands fa-youtube"></i></div>
+    </div>
+
+    <div class="feature-menu">
+      <div class="feature-item" id="btnGantiWarna"><i class="fa-solid fa-palette"></i><span>GANTI WARNA</span></div>
+      <div class="feature-item" id="btnGaleriLengkap"><i class="fa-solid fa-images"></i><span>GALERI</span></div>
+      <div class="feature-item" id="btnMusicLibrary"><i class="fa-solid fa-headphones"></i><span>SPOTIFY</span></div>
+      <div class="feature-item" id="btnInfoDetail"><i class="fa-solid fa-circle-info"></i><span>INFO</span></div>
+      <div class="feature-item" id="btnStore"><i class="fa-solid fa-crown"></i><span>STORE</span></div>
+    </div>
+
+    <div class="visitor-count" id="visitorCount">
+      <i class="fa-regular fa-eye"></i> <span id="countValue">0</span> Pengunjung
+    </div>
+
+    <div id="themePanel" style="display: none;">
+      <div class="color-palette-premium">
+        <div class="theme-ball" style="background: #0b0d19;" data-theme="dark"></div>
+        <div class="theme-ball" style="background: #0a2b5c;" data-theme="blue"></div>
+        <div class="theme-ball" style="background: #4a1d8c;" data-theme="purple"></div>
+        <div class="theme-ball" style="background: #0f6e3f;" data-theme="green"></div>
+        <div class="theme-ball" style="background: #aa2e2e;" data-theme="red"></div>
+        <div class="theme-ball" style="background: #d68b2c;" data-theme="amber"></div>
+        <div class="theme-ball" style="background: #c94f9c;" data-theme="pink"></div>
+      </div>
+    </div>
+
+    <div class="footer-custom">WEB DEVELOPED BY <span>TEGAR OFFICIAL</span> — AKU SELALU MENUNGGU KAMU</div>
+  </div>
+
+  <div id="globalModalPremium" class="modal-master">
+    <div class="modal-inner" id="modalContentDynamic"></div>
+  </div>
+  <div id="toastNotif" class="toast-msg">✨ Berhasil!</div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 500, once: true });
+    
+    // ========== MUSIC PLAYER SYSTEM ==========
+    // Audio element dibuat manual agar lebih mudah dikontrol
+    const audioPlayer = new Audio();
+    audioPlayer.loop = false;
+    let isPlaying = false;
+    let currentSongObj = null;
+    
+    // DAFTAR LAGU (dengan URL yang valid dan bisa diputar)
+    const songLibrary = [
+      { id: 0, title: "Ujung Aspal Pondok Gede", artist: "Iyeth Bustami", src: "https://files.catbox.moe/pecm3i.mp3", icon: "fa-tree" },
+      { id: 1, title: "Bila esok datang (Sped Up)", artist: "Tegar Official", src: "https://files.catbox.moe/3pp1vb.mp3", icon: "fa-heart" },
+      { id: 2, title: "Tolong lihat aku", artist: "Tegar Project", src: "https://files.catbox.moe/yv9rvg.mp3", icon: "fa-star" },
+      { id: 3, title: "Kau lah Seluruh cinta", artist: "Tegar Music", src: "https://files.catbox.moe/5hjf4h.mp3", icon: "fa-fire" },
+      { id: 4, title: "Setia Menanti", artist: "Tegar Official", src: "https://files.catbox.moe/pgyt28.mp3", icon: "fa-clock" }
+    ];
+    
+    // Elemen DOM
+    const playPauseBtn = document.getElementById('playMusicBtn');
+    const nowPlayingSpan = document.getElementById('nowPlayingText');
+    const openMusicMenu = document.getElementById('openMusicMenuBtn');
+    const musicLibraryFeature = document.getElementById('btnMusicLibrary');
+    const modalDiv = document.getElementById('globalModalPremium');
+    const modalContent = document.getElementById('modalContentDynamic');
+    
+    // Fungsi update tampilan play/pause
+    function updatePlayButton() {
+      if (isPlaying) {
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      } else {
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      }
+    }
+    
+    // Fungsi ganti lagu
+    function playSong(song) {
+      if (!song) return;
+      currentSongObj = song;
+      const wasPlaying = isPlaying;
+      
+      // Hentikan audio yang sedang berjalan
+      audioPlayer.pause();
+      
+      // Set sumber lagu baru
+      audioPlayer.src = song.src;
+      audioPlayer.load();
+      
+      // Update teks now playing
+      nowPlayingSpan.innerHTML = `🎵 ${song.title} — ${song.artist} 🎵`;
+      
+      // Jika sebelumnya sedang diputar, lanjutkan putar lagu baru
+      if (wasPlaying) {
+        audioPlayer.play().then(() => {
+          isPlaying = true;
+          updatePlayButton();
+        }).catch(err => {
+          console.log("Gagal memutar:", err);
+          isPlaying = false;
+          updatePlayButton();
+          showToast("❌ Gagal memutar lagu, coba klik play manual.");
+        });
+      } else {
+        isPlaying = false;
+        updatePlayButton();
+      }
+      
+      // Simpan ke localStorage
+      localStorage.setItem('tegar_currentSongId', song.id);
+      showToast(`🎶 Sekarang: ${song.title}`);
+    }
+    
+    // Tombol Play/Pause
+    playPauseBtn.addEventListener('click', () => {
+      if (!currentSongObj) {
+        // Jika belum ada lagu yang dipilih, pilih lagu pertama
+        playSong(songLibrary[0]);
+        return;
+      }
+      
+      if (isPlaying) {
+        audioPlayer.pause();
+        isPlaying = false;
+        updatePlayButton();
+      } else {
+        audioPlayer.play().then(() => {
+          isPlaying = true;
+          updatePlayButton();
+        }).catch(err => {
+          console.log("Error play:", err);
+          showToast("⚠️ Gagal memutar, coba pilih lagu lain dari menu.");
+        });
+      }
+    });
+    
+    // Ketika lagu selesai, lanjut ke lagu berikutnya (opsional)
+    audioPlayer.addEventListener('ended', () => {
+      // Cari lagu selanjutnya
+      if (currentSongObj) {
+        let nextIndex = (currentSongObj.id + 1) % songLibrary.length;
+        let nextSong = songLibrary.find(s => s.id === nextIndex);
+        if (nextSong) {
+          playSong(nextSong);
+        }
+      }
+    });
+    
+    // BUKA MODAL DAFTAR LAGU (MENU DENGERIN LAGU)
+    function openMusicLibraryModal() {
+      const activeId = currentSongObj ? currentSongObj.id : -1;
+      const songsHtml = `
+        <i class="fa-solid fa-headphones" style="font-size: 52px; color:#0af;"></i>
+        <h2 style="margin: 12px 0 8px;">🎧 DENGERIN LAGU</h2>
+        <p style="margin-bottom: 12px;">Pilih lagu favoritmu dari Tegar Official 🎵</p>
+        <div class="music-list" id="musicLibraryList">
+          ${songLibrary.map(song => `
+            <div class="music-item ${activeId === song.id ? 'active-song' : ''}" data-song-id="${song.id}">
+              <div class="song-icon"><i class="fa-solid ${song.icon}"></i></div>
+              <div class="song-info">
+                <div class="song-title">${song.title}</div>
+                <div class="song-artist">${song.artist}</div>
+              </div>
+              <div><i class="fa-solid fa-play-circle"></i></div>
+            </div>
+          `).join('')}
+        </div>
+        <p style="font-size:12px; margin-top:8px;">✨ Klik lagu untuk langsung memutar ✨</p>
+        <button class="close-modal-x" id="closeMusicModalBtn">TUTUP</button>
+      `;
+      modalContent.innerHTML = songsHtml;
+      modalDiv.style.display = 'flex';
+      
+      // Event listener untuk setiap lagu
+      setTimeout(() => {
+        const musicItems = document.querySelectorAll('.music-item');
+        musicItems.forEach(item => {
+          item.addEventListener('click', (e) => {
+            const songId = parseInt(item.dataset.songId);
+            const selectedSong = songLibrary.find(s => s.id === songId);
+            if (selectedSong) {
+              playSong(selectedSong);
+              // Update active class
+              musicItems.forEach(mi => mi.classList.remove('active-song'));
+              item.classList.add('active-song');
+              // Tidak menutup modal biar bisa ganti-ganti lagu
+            }
+          });
+        });
+        const closeBtn = document.getElementById('closeMusicModalBtn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => {
+            modalDiv.style.display = 'none';
+          });
+        }
+      }, 50);
+    }
+    
+    // Event untuk membuka menu lagu
+    openMusicMenu.addEventListener('click', openMusicLibraryModal);
+    musicLibraryFeature.addEventListener('click', openMusicLibraryModal);
+    
+    // ========== SISA FUNGSI LAINNYA (Profil, Video, Gallery, dll) ==========
+    function showToast(msg, duration = 1800) {
+      const toast = document.getElementById('toastNotif');
+      toast.innerText = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => toast.style.opacity = '0', duration);
+    }
+    
+    // Visitor Counter
+    let visitorCount = localStorage.getItem('tegar_visitor') || 1;
+    document.getElementById('countValue').innerText = visitorCount;
+    localStorage.setItem('tegar_visitor', parseInt(visitorCount) + 1);
+    
+    let listFoto = [];
+    
+    async function saveAllData() {
+      const profileSrc = document.getElementById('profileImg').src;
+      localStorage.setItem('tegar_profilePhoto', profileSrc);
+      const currentVideoSrc = document.getElementById('heroVideoPlayer').src;
+      if (currentVideoSrc && currentVideoSrc.startsWith('blob:')) {
+        fetch(currentVideoSrc).then(res => res.blob()).then(blob => {
+          const reader = new FileReader();
+          reader.onloadend = () => localStorage.setItem('tegar_videoBase64', reader.result);
+          reader.readAsDataURL(blob);
+        });
+      } else if (currentVideoSrc && !currentVideoSrc.startsWith('blob:')) {
+        localStorage.setItem('tegar_videoUrl', currentVideoSrc);
+      }
+      const galleryPromises = listFoto.map(async (imgSrc) => {
+        if (imgSrc.startsWith('blob:')) {
+          try {
+            const resp = await fetch(imgSrc);
+            const blob = await resp.blob();
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
+            });
+          } catch(e) { return imgSrc; }
+        } else { return imgSrc; }
+      });
+      const base64Gallery = await Promise.all(galleryPromises);
+      localStorage.setItem('tegar_galleryPhotos', JSON.stringify(base64Gallery));
+      const currentTheme = bodyEl.className.split(' ').find(c => c.startsWith('bg-')) || 'bg-dark';
+      localStorage.setItem('tegar_theme', currentTheme);
+      if (currentSongObj) localStorage.setItem('tegar_currentSongId', currentSongObj.id);
+    }
+    
+    function setDefaultGallery() {
+      listFoto = [
+        "https://picsum.photos/id/1015/300/300",
+        "https://picsum.photos/id/104/300/300",
+        "https://picsum.photos/id/106/300/300",
+        "https://picsum.photos/id/107/300/300",
+        "https://picsum.photos/id/116/300/300",
+        "https://picsum.photos/id/20/300/300",
+        "https://picsum.photos/id/26/300/300",
+        "https://picsum.photos/id/28/300/300",
+        "https://picsum.photos/id/32/300/300"
+      ];
+    }
+    
+    async function loadAllData() {
+      const savedProfile = localStorage.getItem('tegar_profilePhoto');
+      if (savedProfile && savedProfile !== 'null') document.getElementById('profileImg').src = savedProfile;
+      const savedVideoBase64 = localStorage.getItem('tegar_videoBase64');
+      const savedVideoUrl = localStorage.getItem('tegar_videoUrl');
+      const videoEl = document.getElementById('heroVideoPlayer');
+      if (savedVideoBase64) {
+        videoEl.src = savedVideoBase64;
+        videoEl.load();
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      } else if (savedVideoUrl && savedVideoUrl !== 'null') {
+        videoEl.src = savedVideoUrl;
+        videoEl.load();
+        videoEl.muted = true;
+        videoEl.play().catch(() => {});
+      }
+      const savedGallery = localStorage.getItem('tegar_galleryPhotos');
+      if (savedGallery) {
+        try {
+          const parsed = JSON.parse(savedGallery);
+          if (Array.isArray(parsed) && parsed.length > 0) listFoto = parsed;
+          else setDefaultGallery();
+        } catch(e) { setDefaultGallery(); }
+      } else { setDefaultGallery(); }
+      const savedTheme = localStorage.getItem('tegar_theme');
+      if (savedTheme && savedTheme !== 'null') {
+        bodyEl.classList.remove('bg-dark','bg-blue','bg-purple','bg-green','bg-red','bg-amber','bg-pink');
+        bodyEl.classList.add(savedTheme);
+      }
+      // Restore lagu
+      const savedSongId = localStorage.getItem('tegar_currentSongId');
+      if (savedSongId !== null) {
+        const foundSong = songLibrary.find(s => s.id == savedSongId);
+        if (foundSong) {
+          currentSongObj = foundSong;
+          audioPlayer.src = currentSongObj.src;
+          audioPlayer.load();
+          nowPlayingSpan.innerHTML = `🎵 ${currentSongObj.title} — ${currentSongObj.artist} 🎵`;
+          isPlaying = false;
+          updatePlayButton();
+        } else {
+          currentSongObj = songLibrary[0];
+          nowPlayingSpan.innerHTML = `🎵 ${songLibrary[0].title} — ${songLibrary[0].artist} 🎵`;
+        }
+      } else {
+        currentSongObj = songLibrary[0];
+        nowPlayingSpan.innerHTML = `🎵 ${songLibrary[0].title} — ${songLibrary[0].artist} 🎵`;
+      }
+    }
+    
+    // Profile Upload
+    document.getElementById('avatarContainer').addEventListener('click', () => document.getElementById('profilePhotoInput').click());
+    document.getElementById('profilePhotoInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          document.getElementById('profileImg').src = ev.target.result;
+          await saveAllData();
+          showToast('🖼️ Foto profil berhasil diganti!');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Video Upload
+    document.getElementById('videoCardTrigger').addEventListener('click', () => document.getElementById('customVideoUpload').click());
+    document.getElementById('customVideoUpload').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file && file.type.includes('video')) {
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          const videoEl = document.getElementById('heroVideoPlayer');
+          videoEl.src = ev.target.result;
+          videoEl.load();
+          videoEl.muted = false;
+          videoEl.play().catch(() => {});
+          localStorage.setItem('tegar_videoBase64', ev.target.result);
+          localStorage.removeItem('tegar_videoUrl');
+          await saveAllData();
+          showToast('🎥 Video berhasil diganti!');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Payment
+    function openModal(htmlContent) {
+      modalContent.innerHTML = htmlContent;
+      const closeBtn = document.createElement('button');
+      closeBtn.innerText = 'TUTUP';
+      closeBtn.className = 'close-modal-x';
+      closeBtn.addEventListener('click', () => modalDiv.style.display = 'none');
+      modalContent.appendChild(closeBtn);
+      modalDiv.style.display = 'flex';
+    }
+    document.getElementById('danaPaymentBtn').addEventListener('click', () => openModal(`<i class="fa-brands fa-cc-visa" style="font-size:48px;color:#0af;"></i><h2>💎 DANA OFFICIAL</h2><p><strong>Nomor:</strong> 0857-1234-5678</p><p>QRIS: TEGAR OFFICIAL STORE</p>`));
+    document.getElementById('seabankPaymentBtn').addEventListener('click', () => openModal(`<i class="fa-solid fa-building-columns" style="font-size:52px;color:#4dabff;"></i><h3>🏦 SEA BANK PREMIUM</h3><p>No Rek: 9012 3456 7890</p><p>a.n TEGAR OFFICIAL</p>`));
+    
+    // Ganti Warna
+    const gantiWarna = document.getElementById('btnGantiWarna');
+    const themePanel = document.getElementById('themePanel');
+    gantiWarna.addEventListener('click', (e) => { e.stopPropagation(); themePanel.style.display = themePanel.style.display === 'none' ? 'block' : 'none'; });
+    document.querySelectorAll('.theme-ball').forEach(ball => {
+      ball.addEventListener('click', async () => {
+        const theme = ball.dataset.theme;
+        bodyEl.classList.remove('bg-dark','bg-blue','bg-purple','bg-green','bg-red','bg-amber','bg-pink');
+        bodyEl.classList.add(`bg-${theme}`);
+        themePanel.style.display = 'none';
+        await saveAllData();
+        showToast(`🎨 Tema ${theme} tersimpan!`);
+      });
+    });
+    document.addEventListener('click', (e) => { if (themePanel.style.display === 'block' && !gantiWarna.contains(e.target) && !themePanel.contains(e.target)) themePanel.style.display = 'none'; });
+    
+    // Galeri
+    async function renderGaleriModal() {
+      const galleryHtml = `<i class="fa-regular fa-images" style="font-size:44px;color:#0af;"></i><h3>📸 GALERI</h3><div class="gallery-grid" id="galleryGridContainer">${listFoto.map((src, idx) => `<img src="${src}" data-idx="${idx}" class="gallery-photo-item">`).join('')}</div><button class="upload-btn-bulk" id="uploadMultipleBtn"><i class="fa-regular fa-images"></i> + Upload Foto</button><button class="delete-gallery-btn" id="clearAllGalleryBtn">Hapus Semua</button><input type="file" id="multiPhotoInput" accept="image/*" multiple style="display:none;">`;
+      openModal(galleryHtml);
+      setTimeout(() => {
+        const multiInput = document.getElementById('multiPhotoInput');
+        const uploadBtn = document.getElementById('uploadMultipleBtn');
+        const clearBtn = document.getElementById('clearAllGalleryBtn');
+        uploadBtn?.addEventListener('click', () => multiInput.click());
+        multiInput?.addEventListener('change', async (e) => {
+          const files = Array.from(e.target.files);
+          for (const file of files) {
+            if (file.type.startsWith('image/')) {
+              const base64 = await new Promise((resolve) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.readAsDataURL(file); });
+              listFoto.push(base64);
+            }
+          }
+          await saveAllData();
+          showToast(`✅ Foto ditambahkan!`);
+          modalDiv.style.display = 'none';
+          setTimeout(() => renderGaleriModal(), 150);
+        });
+        clearBtn?.addEventListener('click', async () => { if(confirm('Hapus semua foto?')){ listFoto = []; await saveAllData(); modalDiv.style.display = 'none'; setTimeout(() => renderGaleriModal(),150); } });
+        document.querySelectorAll('.gallery-photo-item').forEach(img => {
+          img.addEventListener('click', async (e) => { const idx = parseInt(img.dataset.idx); if(!isNaN(idx) && confirm('Hapus foto ini?')){ listFoto.splice(idx,1); await saveAllData(); modalDiv.style.display = 'none'; setTimeout(() => renderGaleriModal(),150); } });
+        });
+      },100);
+    }
+    document.getElementById('btnGaleriLengkap').addEventListener('click', () => renderGaleriModal());
+    document.getElementById('btnInfoDetail').addEventListener('click', () => openModal(`<i class="fa-solid fa-rocket" style="font-size:48px;color:gold;"></i><h2>⚡ INFO TEGAR OFFICIAL</h2><p>Digital Creator • Content Creator</p><p>💬 "AKU SELALU MENUNGGU KAMU"</p>`));
+    document.getElementById('btnStore').addEventListener('click', () => openModal(`<i class="fa-solid fa-bag-shopping" style="font-size:44px;color:#fcba03;"></i><h3>🛍️ TEGAR OFFICIAL STORE</h3><p>🔥 Kaos eksklusif, Stiker Pack, Jasa Desain</p>`));
+    
+    const socials = [
+      { id: 'sosmedWhatsapp', title: 'WhatsApp', msg: '+62 812-3456-7890', icon: 'whatsapp' },
+      { id: 'sosmedTelegram', title: 'Telegram', msg: '@TEGAROFFICIAL', icon: 'telegram' },
+      { id: 'sosmedTiktok', title: 'TikTok', msg: '@tegarofficial', icon: 'tiktok' },
+      { id: 'sosmedIg', title: 'Instagram', msg: '@tegar_official', icon: 'instagram' },
+      { id: 'sosmedYt', title: 'YouTube', msg: 'Tegar Official Channel', icon: 'youtube' }
+    ];
+    socials.forEach(soc => { document.getElementById(soc.id)?.addEventListener('click', () => openModal(`<i class="fa-brands fa-${soc.icon}" style="font-size:62px;color:#0af;"></i><h3>${soc.title} Official</h3><p>${soc.msg}</p>`)); });
+    
+    modalDiv.addEventListener('click', (e) => { if (e.target === modalDiv) modalDiv.style.display = 'none'; });
+    
+    const bodyEl = document.getElementById('appBody');
+    (async () => { await loadAllData(); document.getElementById('heroVideoPlayer').play().catch(() => {}); })();
+    window.addEventListener('beforeunload', () => { saveAllData(); });
+  </script>
+</body>
+</html>
